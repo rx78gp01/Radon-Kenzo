@@ -41,6 +41,12 @@
 #include <linux/ktime.h>
 #include <linux/thermal.h>
 #include "pmic-voter.h"
+#include <linux/thermal.h>
+#include <linux/device.h>
+
+#ifdef CONFIG_FORCE_FAST_CHARGE
+#include <linux/fastcharge.h>
+#endif
 
 /* Mask/Bit helpers */
 #define _SMB_MASK(BITS, POS) \
@@ -3524,6 +3530,10 @@ static void smbchg_external_power_changed(struct power_supply *psy)
 	if (usb_supply_type != POWER_SUPPLY_TYPE_USB)
 		goto  skip_current_for_non_sdp;
 
+#ifdef CONFIG_FORCE_FAST_CHARGE
+	if (force_fast_charge)
+		current_limit = 900;
+#endif
 	pr_smb(PR_MISC, "usb type = %s current_limit = %d\n",
 			usb_type_name, current_limit);
 
