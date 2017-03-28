@@ -45,6 +45,15 @@ selectbox(
 );
 endif;
 
+if prop("goodix.prop","selected.0")=="2" then
+alert(
+  "NOTICE:",
+  "Make sure your rom has proper goodix support, changes are needed in ramdisk, libs etc. to make goodix fully working, goodix kernel side drivers are already present in radon.\n\n",
+  "@warning",
+  "OK"
+);
+endif;
+
 selectbox(
   "\n\nDo you need dt2w ?","<@center><b>\n\n\n\n\n\nRemember !\n\nKeeping dt2w enabled will consume little more battery.\n</b></@>","","dt2w.prop",
   "Yes, enable it (with vibration)","",0,
