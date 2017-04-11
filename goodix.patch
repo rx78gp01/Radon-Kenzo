@@ -1,8 +1,8 @@
 diff --git a/arch/arm/boot/dts/qcom/kenzo/kenzo-msm8956-mtp.dtsi b/arch/arm/boot/dts/qcom/kenzo/kenzo-msm8956-mtp.dtsi
-index 876feb1..b5ca497 100644
+index d66d1a8..d7967e8 100644
 --- a/arch/arm/boot/dts/qcom/kenzo/kenzo-msm8956-mtp.dtsi
 +++ b/arch/arm/boot/dts/qcom/kenzo/kenzo-msm8956-mtp.dtsi
-@@ -188,17 +188,6 @@
+@@ -190,17 +190,6 @@
  		vdd-supply = <&pm8950_l10>;
  	};
  
@@ -21,10 +21,10 @@ index 876feb1..b5ca497 100644
  		compatible = "goodix,fingerprint";
  		vcc_spi-supply  = <&pm8950_l10>;
 diff --git a/arch/arm64/configs/lineageos_kenzo_defconfig b/arch/arm64/configs/lineageos_kenzo_defconfig
-index f2ec980..e38b8ea 100644
+index 3316532..0a0a43e 100644
 --- a/arch/arm64/configs/lineageos_kenzo_defconfig
 +++ b/arch/arm64/configs/lineageos_kenzo_defconfig
-@@ -1604,7 +1604,7 @@ CONFIG_WAKE_GESTURES=y
+@@ -1623,7 +1623,7 @@ CONFIG_WAKE_GESTURES=y
  CONFIG_INPUT_MISC=y
  # CONFIG_INPUT_AD714X is not set
  # CONFIG_INPUT_BMA150 is not set
@@ -33,3 +33,32 @@ index f2ec980..e38b8ea 100644
  # CONFIG_INPUT_HBTP_INPUT is not set
  # CONFIG_INPUT_MMA8450 is not set
  # CONFIG_INPUT_MPU3050 is not set
+diff --git a/drivers/input/misc/goodix/gf_spi.c b/drivers/input/misc/goodix/gf_spi.c
+index 3274ea7..1820387 100644
+--- a/drivers/input/misc/goodix/gf_spi.c
++++ b/drivers/input/misc/goodix/gf_spi.c
+@@ -100,10 +100,6 @@ static LIST_HEAD(device_list);
+ static DEFINE_MUTEX(device_list_lock);
+ static struct gf_dev gf;
+ 
+-#ifdef CONFIG_MACH_XIAOMI_KENZO
+-extern int kenzo_fpsensor;
+-#endif
+-
+ static int driver_init_partial(struct gf_dev *gf_dev);
+ 
+ 
+@@ -738,13 +734,6 @@ static int gf_probe(struct platform_device *pdev)
+ #endif
+ 	FUNC_ENTRY();
+ 
+-#ifdef CONFIG_MACH_XIAOMI_KENZO
+-	if (kenzo_fpsensor != 2) {
+-		pr_err("board no gdx fpsensor\n");
+-		return -ENODEV;
+-	}
+-#endif
+-
+ 	/* Initialize the driver data */
+ 	INIT_LIST_HEAD(&gf_dev->device_entry);
+ #if defined(USE_SPI_BUS)
