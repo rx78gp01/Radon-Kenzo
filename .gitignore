@@ -98,3 +98,4 @@ build/tools/*.img
 build/tools/Image*
 !qc.patch
 !goodix.patch
+!build/tools/gxfingerprint.default.so

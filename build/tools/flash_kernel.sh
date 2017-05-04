@@ -15,35 +15,28 @@
  #
  # Please maintain this if you use this script or any part of it
  #
-goodix=$(cat /tmp/aroma/goodix.prop | cut -d '=' -f2)
 selinx=$(cat /tmp/aroma/sel.prop | cut -d '=' -f2)
 qc=$(cat /tmp/aroma/crate.prop | cut -d '=' -f2)
-if ([ $goodix -eq 1 ]&&[ $qc -eq 1 ]); then
-dim=/tmp/dt11.img
 zim=/tmp/Image1
-elif ([ $goodix -eq 1 ]&&[ $qc -eq 2 ]); then
-dim=/tmp/dt12.img
-zim=/tmp/Image1
-elif ([ $goodix -eq 2 ]&&[ $qc -eq 1 ]); then
-dim=/tmp/dt21.img
-zim=/tmp/Image2
-elif ([ $goodix -eq 2 ]&&[ $qc -eq 2 ]); then
-dim=/tmp/dt22.img
-zim=/tmp/Image2
+if ([ $qc -eq 1 ]); then
+dim=/tmp/dt1.img
+elif ([ $qc -eq 2 ]); then
+dim=/tmp/dt2.img
 fi
-if ([ $goodix -eq 2 ]); then
-cmd="console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=permissive"
-fi
-if ([ $goodix -eq 1 ]&&[ $selinx -eq 1 ]); then
-cmd="console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=enforcing"
-elif ([ $goodix -eq 1 ]&&[ $selinx -eq 2 ]); then
-cmd="console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=permissive"
+cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=enforcing"
+if ([ $selinx -eq 1 ]); then
+cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=enforcing"
+elif ([ $selinx -eq 2 ]); then
+cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=permissive"
 fi
 if ! [ -a /system/etc/radon.sh ];
 then
 cp /tmp/radon.sh /system/etc/radon.sh
 chmod 644 /system/etc/radon.sh
 fi
+cp /tmp/init.qcom.post_boot.sh /system/etc/init.qcom.post_boot.sh
+cp /tmp/gxfingerprint.default.so /system/lib64/hw/gxfingerprint.default.so
+chmod 644 /system/etc/init.qcom.post_boot.sh
 cp -f /tmp/cpio /sbin/cpio
 cd /tmp/
 /sbin/busybox dd if=/dev/block/bootdevice/by-name/boot of=./boot.img
