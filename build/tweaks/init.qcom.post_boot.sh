@@ -942,30 +942,6 @@ case "$target" in
                     echo -n enable > $mode
                 done
 
-                # enable governor for perf cluster
-                echo 1 > /sys/devices/system/cpu/cpu0/online
-                echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-                echo "19000 1113600:39000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
-                echo 85 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
-                echo 1113600 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
-                echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
-                echo "1 960000:85 1113600:90 1344000:80" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
-                echo 40000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
-                echo 40000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/sampling_down_factor
-                echo 960000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-
-                # enable governor for power cluster
-                echo 1 > /sys/devices/system/cpu/cpu4/online
-                echo "interactive" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-                echo 39000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
-                echo 90 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
-                echo 806400 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
-                echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy
-                echo "1 806400:90" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
-                echo 40000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
-                echo 40000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/sampling_down_factor
-                echo 806400 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-
                 # Bring up all cores online
                 echo 1 > /sys/devices/system/cpu/cpu1/online
                 echo 1 > /sys/devices/system/cpu/cpu2/online
@@ -1087,22 +1063,6 @@ case "$target" in
                     echo -n enable > $mode
                 done
 
-                # enable governor for power cluster
-                echo 1 > /sys/devices/system/cpu/cpu0/online
-                echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-                echo 80 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
-                echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
-                echo 40000 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
-
-                # enable governor for perf cluster
-                echo 1 > /sys/devices/system/cpu/cpu4/online
-                echo "interactive" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-                echo 85 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
-                echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy
-                echo 40000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
-                echo 40000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/sampling_down_factor
-                echo 60000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
-
                 if [ $panel -gt 1080 ]; then
                     #set texture cache size for resolution greater than 1080p
                     setprop ro.hwui.texture_cache_size 72
@@ -1161,8 +1121,6 @@ case "$target" in
                 echo 50000 > /proc/sys/kernel/sched_freq_inc_notify
                 echo 50000 > /proc/sys/kernel/sched_freq_dec_notify
 
-                # Enable core control
-                insmod /system/lib/modules/core_ctl.ko
                 #for 8976
 
                 # re-enable thermal & BCL core_control now
