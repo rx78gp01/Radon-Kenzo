@@ -29,11 +29,8 @@ cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sd
 elif ([ $selinx -eq 2 ]); then
 cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=permissive"
 fi
-if ! [ -a /system/etc/radon.sh ];
-then
 cp /tmp/radon.sh /system/etc/radon.sh
 chmod 644 /system/etc/radon.sh
-fi
 cp /tmp/init.qcom.post_boot.sh /system/etc/init.qcom.post_boot.sh
 cp /tmp/gxfingerprint.default.so /system/lib64/hw/gxfingerprint.default.so
 chmod 644 /system/etc/init.qcom.post_boot.sh
