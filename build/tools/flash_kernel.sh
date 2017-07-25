@@ -17,17 +17,20 @@
  #
 selinx=$(cat /tmp/aroma/sel.prop | cut -d '=' -f2)
 qc=$(cat /tmp/aroma/crate.prop | cut -d '=' -f2)
+pgt=$(cat /tmp/aroma/pgt.prop | cut -d '=' -f2)
 zim=/tmp/Image1
-if ([ $qc -eq 1 ]); then
+if [ $qc -eq 1 ]; then
 dim=/tmp/dt1.img
-elif ([ $qc -eq 2 ]); then
+elif [ $qc -eq 2 ]; then
 dim=/tmp/dt2.img
 fi
 cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=enforcing"
-if ([ $selinx -eq 1 ]); then
-cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=enforcing"
-elif ([ $selinx -eq 2 ]); then
+if [ $selinx -eq 2 ]; then
 cmd="androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 ramoops_memreserve=4M androidboot.selinux=permissive"
+fi
+pgtsuffix=" snd-soc-msm8x16-wcd.dig_core_collapse_enable=0"
+if [ $pgt -eq 2 ]; then
+cmd=$cmd$pgtsuffix
 fi
 cp /tmp/radon.sh /system/etc/radon.sh
 chmod 644 /system/etc/radon.sh

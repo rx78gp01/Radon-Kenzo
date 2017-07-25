@@ -34,8 +34,6 @@ DTBTOOL=$KERNEL_DIR/dtbTool
 cd $KERNEL_DIR
 export ARCH=arm64
 export CROSS_COMPILE="/home/$USER/toolchain/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
-export LD_LIBRARY_PATH=home/$USER/toolchain/aarch64-linux-android-4.9/lib/
-STRIP="/home/$USER/toolchain/aarch64-linux-android-4.9/bin/aarch64-linux-android-strip"
 echo -e "$yellow Running make clean before compiling \n$white"
 make clean > /dev/null
 if [ $qc == 2 ]; then
