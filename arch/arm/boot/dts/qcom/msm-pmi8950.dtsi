@@ -215,6 +215,8 @@
 			qcom,charge-unknown-battery;
 			qcom,force-aicl-rerun;
 			qcom,aicl-rerun-period-s = <180>;
+			qcom,board_ntc-vadc = <&pm8950_vadc>;
+			ntc_vdd-supply = <&pm8950_l16>;
 
 			qcom,chgr@1000 {
 				reg = <0x1000 0x100>;
@@ -420,7 +422,6 @@
 		#size-cells = <1>;
 
 		pmi8950_pwm: pwm@b000 {
-			status = "ok";
 			compatible = "qcom,qpnp-pwm";
 			reg = <0xb000 0x100>;
 			reg-names = "qpnp-lpg-channel-base";
@@ -431,6 +432,7 @@
 			qcom,lpg-dtest-line = <1>;
 			qcom,dtest-output = <1>;
 			#pwm-cells = <2>;
+			status = "okay";
 
 			qcom,pwm {
 				qcom,duty = <2000000>;
